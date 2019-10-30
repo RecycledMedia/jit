@@ -8,7 +8,7 @@ class Jit(object):
 		self.root = self.getRoot(os.getcwd())
 		self.root_files = []
 		if not self.root:
-			print "Could not find a root directory."
+			print("Could not find a root directory.")
 			return
 
 		self.root_files = os.listdir(self.root)
@@ -60,9 +60,9 @@ class Jit(object):
 			dirty_repos = self.getDirtyRepos()
 
 		if dirty_repos:
-			print "Please commit or stash your changes in the following repos."
+			print("Please commit or stash your changes in the following repos.")
 			for repo in dirty_repos:
-				print self.formatActiveBranchOutput(repo)
+				print(self.formatActiveBranchOutput(repo))
 			return True
 		return False;
 
@@ -78,7 +78,7 @@ class Jit(object):
 	def checkoutRelevantRepos(self, branch_name):
 		for repo in self.getRelevantRepos(branch_name):
 			repo.git.checkout(branch_name)
-			print self.formatActiveBranchOutput(repo)			
+			print(self.formatActiveBranchOutput(repo))
 
 	def allToMaster(self):
 		if not self.handleDirtyRepos():
@@ -97,22 +97,22 @@ class Jit(object):
 	def displayUserRepos(self):
 		for repo in self.getRepos():
 			if (len(repo.branches) > 1):
-				print self.getRepoName(repo)
+				print(self.getRepoName(repo))
 			for branch in self.getBranches(repo):
-				print branch.name.ljust(5)
-				
+				print(branch.name.ljust(5))
+
 	def displayCurrentBranches(self):
 		repos = self.getRepos()
 		for repo in repos:
-			print self.formatActiveBranchOutput(repo)
+			print(self.formatActiveBranchOutput(repo))
 
 	def displayDirtyRepos(self):
 		for repo in self.getDirtyRepos():
-			print self.formatActiveBranchOutput(repo)
+			print(self.formatActiveBranchOutput(repo))
 
 	def displayRelevantRepos(self, branch_name):
 		for repo in self.getRelevantRepos(branch_name):
-			print self.formatActiveBranchOutput(repo)
+			print(self.formatActiveBranchOutput(repo))
 
 @click.group()
 def cli():
@@ -129,7 +129,7 @@ def	all():
 def mine():
 	"""Display all branches for all repos."""
 	jit = Jit()
-	jit.displayUserRepos()   
+	jit.displayUserRepos()
 
 @cli.command()
 def dirty():
