@@ -80,7 +80,7 @@ class Jit(object):
 		return relevant_repos
 
 	def checkout_relevant_repos(self, branch_name):
-		with multiprocessing.Pool(10) as p:
+		with multiprocessing.Pool(Jit.processes_qty()) as p:
 			p.starmap(self.checkout_branch, self.get_relevant_repos(branch_name))
 
 	def checkout_branch(self, repo, branch_name):
@@ -94,7 +94,7 @@ class Jit(object):
 
 	def pull_all(self):
 		if not self.handle_dirty_repos():
-			with multiprocessing.Pool(16) as p:
+			with multiprocessing.Pool(Jit.processes_qty()) as p:
 				p.map(self.pull_one, self.get_repos())
 
 	def pull_one(self, repo):
@@ -124,6 +124,9 @@ class Jit(object):
 		for repo, _ in self.get_relevant_repos(branch_name):
 			print(self.format_active_branch_output(repo))
 
+	@staticmethod
+	def processes_qty():
+		return multiprocessing.cpu_count() * 2
 
 @click.group()
 def cli():
