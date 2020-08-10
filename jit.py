@@ -95,7 +95,7 @@ class Jit(object):
 	def pull_all(self):
 		if not self.handle_dirty_repos():
 			with multiprocessing.Pool(10) as p:
-				p.starmap(self.pull_one, self.get_repos())
+				p.map(self.pull_one, self.get_repos())
 
 	def pull_one(self, repo):
 		try:
